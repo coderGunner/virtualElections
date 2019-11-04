@@ -1,0 +1,6 @@
+C:\Users\Ruben\Desktop\Freelance\VotacionesV1\VotacionesV1\bin\Debug\VotacionesV1.exe.config
+C:\Users\Ruben\Desktop\Freelance\VotacionesV1\VotacionesV1\bin\Debug\VotacionesV1.exe
+C:\Users\Ruben\Desktop\Freelance\VotacionesV1\VotacionesV1\bin\Debug\VotacionesV1.pdb
+C:\Users\Ruben\Desktop\Freelance\VotacionesV1\VotacionesV1\obj\Debug\VotacionesV1.csprojResolveAssemblyReference.cache
+C:\Users\Ruben\Desktop\Freelance\VotacionesV1\VotacionesV1\obj\Debug\VotacionesV1.exe
+C:\Users\Ruben\Desktop\Freelance\VotacionesV1\VotacionesV1\obj\Debug\VotacionesV1.pdb
