@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VotacionesV1
 {
-    class Variables
+   public class Variables
     {
         //variable para determinar el maximo de votos por elecciones 
         public static int maximovotos = 100000;
@@ -19,6 +20,14 @@ namespace VotacionesV1
         // d. en posicion 3
         // e. en posicion 4
         public static int[] modalidadesActivas = { 0, 0, 0, 0, 0 };
-
+        public static int[] cantidadvotosAmarillo = { 0, 0, 0, 0, 0 };
+        public static int[] cantidadvotosVioleta = { 0, 0, 0, 0, 0 };
+        public static int[] cantidadvotosVerde = { 0, 0, 0, 0, 0 };
+        public static int[] cantidadvotosRojo = { 0, 0, 0, 0, 0 };
+        public static int[] cantidadvotosAzul = { 0, 0, 0, 0, 0 };
+        public static string password = "admin123";
+        public static ArrayList votantes = new ArrayList();
+        public static int conteoVotosTotales = 0;
+        public static ArrayList votantes_v = new ArrayList();
     }
 }
