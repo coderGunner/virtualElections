@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,9 +120,17 @@ namespace VotacionesV1
                         string dm = d.Trim();
                         if (dm.Equals(cui))
                         {
-                            iniciarvotacionVotante();
-                            ext = false;
-                            inn = false;
+                            if (Variables.conteoVotosTotales < Variables.maximovotos)
+                            {
+                                iniciarvotacionVotante();
+                                ext = false;
+                                inn = false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Se llego al maximo de votos configurado por el administrador");
+                            }
+
                         }
                     }
                     if (inn)
@@ -138,8 +147,17 @@ namespace VotacionesV1
                     }
                     else
                     {
-                        iniciarvotacionVotante();
-                        ext = false;
+
+                        if (Variables.conteoVotosTotales < Variables.maximovotos)
+                        {
+                            iniciarvotacionVotante();
+                            ext = false;
+                        
+                        }
+                        else
+                        {
+                            Console.WriteLine("Se llego al maximo de votos configurado por el administrador");
+                        }
                     }
 
                 }
@@ -147,14 +165,17 @@ namespace VotacionesV1
             }
 
 
+
         }
+
         public void iniciarvotacionVotante()
         {
             Votante vo = new Votante();
+            bool outev = true;
             if (Variables.modalidadesActivas[0] == 1)
             {
                 bool v = true;               
-                while (v)
+                while (v && outev)
                 {
                     Console.WriteLine("Elecciones a Presidente y Viceprecidente");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -173,6 +194,7 @@ namespace VotacionesV1
                     Console.WriteLine("       5.  Azul                    ");
                     Console.ResetColor();
                     Console.WriteLine("       6.  Nulo                    ");
+                    Console.WriteLine("       7.  Salir");
                     string choose = Console.ReadLine();
                     if (choose.Equals("1"))
                     {
@@ -209,6 +231,10 @@ namespace VotacionesV1
                         vo.addVoto("nulo");
                         v = false;
                     }
+                    else if (choose.Equals("7"))
+                    {
+                        outev = false;
+                    }
 
                 }//end while
                 
@@ -217,7 +243,7 @@ namespace VotacionesV1
             if (Variables.modalidadesActivas[1] == 1)
             {
                 bool v = true;
-                while (v)
+                while (v && outev)
                 {
                     Console.WriteLine("Eleccion de Alcalde Municipal");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -236,6 +262,7 @@ namespace VotacionesV1
                     Console.WriteLine("       5.  Azul                    ");
                     Console.ResetColor();
                     Console.WriteLine("       6.  Nulo                    ");
+                    Console.WriteLine("       7.  Salir");
                     string choose = Console.ReadLine();
                     if (choose.Equals("1"))
                     {
@@ -272,6 +299,10 @@ namespace VotacionesV1
                         vo.addVoto("nulo");
                         v = false;
                     }
+                    else if (choose.Equals("7"))
+                    {
+                        outev = false;
+                    }
 
                 }
 
@@ -279,7 +310,7 @@ namespace VotacionesV1
             if (Variables.modalidadesActivas[2] == 1)
             {
                 bool v = true;
-                while (v)
+                while (v && outev)
                 {
                     Console.WriteLine("Elecciones  para diputados en lista nacional");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -298,6 +329,7 @@ namespace VotacionesV1
                     Console.WriteLine("       5.  Azul                    ");
                     Console.ResetColor();
                     Console.WriteLine("       6.  Nulo                    ");
+                    Console.WriteLine("       7.  Salir");
                     string choose = Console.ReadLine();
                     if (choose.Equals("1"))
                     {
@@ -335,12 +367,17 @@ namespace VotacionesV1
                         v = false;
                     }
 
+                    else if (choose.Equals("7"))
+                    {
+                        outev = false;
+                    }
+
                 }
             }
             if (Variables.modalidadesActivas[3] == 1)
             {
                 bool v = true;
-                while (v)
+                while (v && outev)
                 {
                     Console.WriteLine("Eleccion a diputados en listado distrital");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -359,6 +396,7 @@ namespace VotacionesV1
                     Console.WriteLine("       5.  Azul                    ");
                     Console.ResetColor();
                     Console.WriteLine("       6.  Nulo                    ");
+                    Console.WriteLine("       7.  Salir");
                     string choose = Console.ReadLine();
                     if (choose.Equals("1"))
                     {
@@ -396,13 +434,18 @@ namespace VotacionesV1
                         v = false;
                     }
 
+                    else if (choose.Equals("7"))
+                    {
+                        outev = false;
+                    }
+
                 }
 
             }
             if (Variables.modalidadesActivas[4] == 1)
             {
                 bool v = true;
-                while (v)
+                while (v && outev)
                 {
                     Console.WriteLine("Elecciones para dipuatados del parlacen");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -421,6 +464,7 @@ namespace VotacionesV1
                     Console.WriteLine("       5.  Azul                    ");
                     Console.ResetColor();
                     Console.WriteLine("       6.  Nulo                    ");
+                    Console.WriteLine("       7.  Salir");
                     string choose = Console.ReadLine();
                     if (choose.Equals("1"))
                     {
@@ -457,11 +501,19 @@ namespace VotacionesV1
                         vo.addVoto("nulo");
                         v = false;
                     }
+                    else if (choose.Equals("7"))
+                    {
+                        outev = false;
+                    }
 
                 }
             }
             Console.WriteLine("HA FINALIZADO SU VOTACION!!!");
-            Variables.votantes_v.Add(vo);
+            if (outev) {
+                Variables.votantes_v.Add(vo);
+                Variables.conteoVotosTotales += 1;
+            }
+           
         }
         public void funcionalidadesAdministrador()
         {
@@ -477,7 +529,8 @@ namespace VotacionesV1
                 Console.WriteLine("**         6.  Mostrar Reporte Grafico                  **");
                 Console.WriteLine("**         7.  Auditar                                  **");
                 Console.WriteLine("**         8.  Anular Elecciones                        **");
-                Console.WriteLine("**         9.  Salir                                    **");
+                Console.WriteLine("**         9.  Reporte de elecciones                    **");
+                Console.WriteLine("**         10. Salir                                    **");
                 Console.WriteLine("**********************************************************");
                 string choose = Console.ReadLine();
                 if (choose.Equals("1"))
@@ -514,6 +567,10 @@ namespace VotacionesV1
                 }
                 else if (choose.Equals("9"))
                 {
+                    reporteEleccion();
+                }
+                else if (choose.Equals("10"))
+                {
                     this.exit = false;
                 }
 
@@ -524,6 +581,137 @@ namespace VotacionesV1
 
         }
 
+        public void reporteEleccion()
+        {
+            bool e = true;
+            while (e)
+            {
+                Console.WriteLine("***        ESCOJA LA MODALIDAD A REPORTAR              ***");
+                Console.WriteLine("**         1.  Presidente y Vicepresidente              **");
+                Console.WriteLine("**         2.  Alcalde Municipal                        **");
+                Console.WriteLine("**         3.  Diputados en Lista Nacional              **");
+                Console.WriteLine("**         4.  Diputados en lista Distrital             **");
+                Console.WriteLine("**         5.  Diputados al Parlacen                    **");
+                Console.WriteLine("**         6. Salir                                     **");
+                Console.WriteLine("**********************************************************");
+                string choose = Console.ReadLine();
+                if (choose.Equals("1"))
+                {
+                    graficarPartido(0);
+
+                }
+                else if (choose.Equals("2"))
+                {
+                    graficarPartido(1);
+                }
+                else if (choose.Equals("3"))
+                {
+                    graficarPartido(2);
+                }
+                else if (choose.Equals("4"))
+                {
+                    graficarPartido(3);
+                }
+                else if (choose.Equals("5"))
+                {
+                    graficarPartido(4);
+                }
+                else if (choose.Equals("6"))
+                {
+                    e = false;
+                }
+            }
+
+            }
+
+        public void graficarPartido(int m)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("PARTIDO AMARILLO");
+            Console.ResetColor();
+            Console.Write("Cantidad de Votos:  ");
+            Console.WriteLine(Variables.cantidadvotosAmarillo[m]);
+            double porcentaje = (double)Variables.cantidadvotosAmarillo[m] / (double)Variables.conteoVotosTotales;
+            Console.WriteLine("Porcentaje de votos: ");
+
+            for (int i = 0; i < Variables.cantidadvotosAmarillo[m]; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("#");
+            }
+            Console.WriteLine(" " + porcentaje.ToString("P", CultureInfo.InvariantCulture));
+            Console.ResetColor();
+            // partido verde
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("PARTIDO VERDE");
+            Console.ResetColor();
+            Console.Write("Cantidad de Votos:  ");
+            Console.WriteLine(Variables.cantidadvotosVerde[m]);
+            porcentaje = (double)Variables.cantidadvotosVerde[m] / (double)Variables.conteoVotosTotales;
+            Console.WriteLine("Porcentaje de votos: ");
+
+            for (int i = 0; i < Variables.cantidadvotosVerde[m]; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("#");
+            }
+            Console.WriteLine(" " + porcentaje.ToString("P", CultureInfo.InvariantCulture));
+            Console.ResetColor();
+
+            //partido VIOLETA
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("PARTIDO VIOLETA");
+            Console.ResetColor();
+            Console.Write("Cantidad de Votos:  ");
+            Console.WriteLine(Variables.cantidadvotosVioleta[m]);
+            porcentaje = (double)Variables.cantidadvotosVioleta[m] / (double)Variables.conteoVotosTotales;
+            Console.WriteLine("Porcentaje de votos: ");
+
+            for (int i = 0; i < Variables.cantidadvotosVioleta[m]; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.Write("#");
+            }
+            Console.WriteLine(" " + porcentaje.ToString("P", CultureInfo.InvariantCulture));
+            Console.ResetColor();
+
+            //partido Rojo
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("PARTIDO ROJO");
+            Console.ResetColor();
+            Console.Write("Cantidad de Votos:  ");
+            Console.WriteLine(Variables.cantidadvotosRojo[m]);
+            porcentaje = (double)Variables.cantidadvotosRojo[m] / (double)Variables.conteoVotosTotales;
+            Console.WriteLine("Porcentaje de votos: ");
+
+            for (int i = 0; i < Variables.cantidadvotosRojo[m]; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("#");
+            }
+            Console.WriteLine(" " + porcentaje.ToString("P", CultureInfo.InvariantCulture));
+            Console.ResetColor();
+
+            //partido Azul
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("PARTIDO AZUL");
+            Console.ResetColor();
+            Console.Write("Cantidad de Votos:  ");
+            Console.WriteLine(Variables.cantidadvotosAzul[m]);
+            porcentaje = (double)Variables.cantidadvotosAzul[m] / (double)Variables.conteoVotosTotales;
+            Console.WriteLine("Porcentaje de votos: ");
+
+            for (int i = 0; i < Variables.cantidadvotosAzul[m]; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("#");
+            }
+            Console.WriteLine(" " + porcentaje.ToString("P", CultureInfo.InvariantCulture));
+            Console.ResetColor();
+            Console.WriteLine("Total de votos: " + Variables.conteoVotosTotales);
+
+
+        }
         public void iniciarVotacion()
         {
             string choose;
@@ -808,21 +996,21 @@ namespace VotacionesV1
                     int totalRojo = Variables.cantidadvotosRojo[0] + Variables.cantidadvotosRojo[1] + Variables.cantidadvotosRojo[2] + Variables.cantidadvotosRojo[3] + Variables.cantidadvotosRojo[4];
                     int totalAzul = Variables.cantidadvotosAzul[0] + Variables.cantidadvotosAzul[1] + Variables.cantidadvotosAzul[2] + Variables.cantidadvotosAzul[3] + Variables.cantidadvotosAzul[4];
 
-                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,25}|{3,10}|{4,25}|{5,18}|{6,15}|", "PARTIDO","PRESINDENTE", "ALCALDE", "DIPUTADO LISTA NACIONAL","DIPUTADO LISTA DISTRITAL", "DIPUTADOS PARLACEN", "TOTAL VOTOS"));
+                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|{4,25}|{5,18}|{6,15}|", "PARTIDO","PRESIDENTE", "ALCALDE", "DIPUTADO LISTA NACIONAL","DIPUTADO LISTA DISTRITAL", "DIPUTADOS PARLACEN", "TOTAL VOTOS"));
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,25}|{3,10}|{4,25}|{5,18}|{6,15}|", "AMARILLO", Variables.cantidadvotosAmarillo[0] , Variables.cantidadvotosAmarillo[1], Variables.cantidadvotosAmarillo[2], Variables.cantidadvotosAmarillo[3], Variables.cantidadvotosAmarillo[4], totalAmarillo));
+                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|{4,25}|{5,18}|{6,15}|", "AMARILLO", Variables.cantidadvotosAmarillo[0] , Variables.cantidadvotosAmarillo[1], Variables.cantidadvotosAmarillo[2], Variables.cantidadvotosAmarillo[3], Variables.cantidadvotosAmarillo[4], totalAmarillo));
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,25}|{3,10}|{4,25}|{5,18}|{6,15}|", "VERDE", Variables.cantidadvotosVerde[0], Variables.cantidadvotosVerde[1], Variables.cantidadvotosVerde[2], Variables.cantidadvotosVerde[3], Variables.cantidadvotosVerde[4], totalVerde));
+                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|{4,25}|{5,18}|{6,15}|", "VERDE", Variables.cantidadvotosVerde[0], Variables.cantidadvotosVerde[1], Variables.cantidadvotosVerde[2], Variables.cantidadvotosVerde[3], Variables.cantidadvotosVerde[4], totalVerde));
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,25}|{3,10}|{4,25}|{5,18}|{6,15}|", "VIOLETA", Variables.cantidadvotosVioleta[0], Variables.cantidadvotosVioleta[1], Variables.cantidadvotosVioleta[2], Variables.cantidadvotosVioleta[3], Variables.cantidadvotosVioleta[4], totalVioleta));
+                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|{4,25}|{5,18}|{6,15}|", "VIOLETA", Variables.cantidadvotosVioleta[0], Variables.cantidadvotosVioleta[1], Variables.cantidadvotosVioleta[2], Variables.cantidadvotosVioleta[3], Variables.cantidadvotosVioleta[4], totalVioleta));
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,25}|{3,10}|{4,25}|{5,18}|{6,15}|", "ROJO", Variables.cantidadvotosRojo[0], Variables.cantidadvotosRojo[1], Variables.cantidadvotosRojo[2], Variables.cantidadvotosRojo[3], Variables.cantidadvotosRojo[4], totalRojo));
+                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|{4,25}|{5,18}|{6,15}|", "ROJO", Variables.cantidadvotosRojo[0], Variables.cantidadvotosRojo[1], Variables.cantidadvotosRojo[2], Variables.cantidadvotosRojo[3], Variables.cantidadvotosRojo[4], totalRojo));
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,25}|{3,10}|{4,25}|{5,18}|{6,15}|", "AZUL", Variables.cantidadvotosAzul[0], Variables.cantidadvotosAzul[1], Variables.cantidadvotosAzul[2], Variables.cantidadvotosAzul[3], Variables.cantidadvotosAzul[4], totalAzul));
+                    Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|{4,25}|{5,18}|{6,15}|", "AZUL", Variables.cantidadvotosAzul[0], Variables.cantidadvotosAzul[1], Variables.cantidadvotosAzul[2], Variables.cantidadvotosAzul[3], Variables.cantidadvotosAzul[4], totalAzul));
                     Console.ResetColor();
                     Console.Write("Presione Enter para continuar: ");
                     Console.ReadLine();
